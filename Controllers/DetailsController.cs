@@ -21,21 +21,61 @@ namespace LostOrFound.Controllers
         }
 
         // GET: Details
-        public async Task<IActionResult> Index(int pg=1)
+        public async Task<IActionResult> Index(
+     string sortOrder,
+     string currentFilter,
+     string searchString,
+     string filterString,
+     int? pageNumber)
         {
-            List<Details> details = _context.Details.ToList();
-            const int pageSize = 5;
-            if (pg < 1)
-                pg = 1;
-            int recsCount = details.Count();
-            var pager =new Pager(recsCount,pg,pageSize);
-            int recSkip = (pg-1) * pageSize;
-            var data=details.Skip(recSkip).Take(pager.PageSize).ToList();
-            this.ViewBag.Pager=pager;
 
-            return View(data);
-                    
-           
+            ViewBag.options = new List<string>() { "ItemLost", "ItemFound" };
+            ViewData["CurrentSort"] = sortOrder;
+            ViewData["NameSortParm"] = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
+            ViewData["DateSortParm"] = sortOrder == "Date" ? "date_desc" : "Date";
+
+            if (searchString != null)
+            {
+                pageNumber = 1;
+            }
+            else
+            {
+                searchString = currentFilter;
+            }
+
+            ViewData["CurrentFilter"] = searchString;
+
+            var details = from s in _context.Details
+                           select s;
+            if (!String.IsNullOrEmpty(searchString))
+            {
+               details = details.Where(s => s.FirstName.Contains(searchString)
+                                       || s.LastName.Contains(searchString) || s.ItemDetails.Contains(searchString));
+            }
+            ViewData["CurrentFilter1"] = filterString;
+
+            if (!String.IsNullOrEmpty(filterString))
+            {
+                details = details.Where(s => s.ItemDetails.Contains(filterString));
+            }
+            switch (sortOrder)
+            {
+                case "name_desc":
+                    details = details.OrderByDescending(s => s.FirstName);
+                    break;
+                case "Date":
+                    details = details.OrderBy(s => s.Date);
+                    break;
+                case "date_desc":
+                    details = details.OrderByDescending(s => s.Date);
+                    break;
+                default:
+                    details = details.OrderBy(s => s.FirstName);
+                    break;
+            }
+
+            int pageSize = 3;
+            return View(await PaginatedList<Details>.CreateAsync(details.AsNoTracking(), pageNumber ?? 1, pageSize));
         }
 
         // GET: Details/Details/5
@@ -59,6 +99,7 @@ namespace LostOrFound.Controllers
         // GET: Details/Create
         public IActionResult Create()
         {
+            ViewBag.options = new List<string>() { "ItemLost", "ItemFound" };
             return View();
         }
 

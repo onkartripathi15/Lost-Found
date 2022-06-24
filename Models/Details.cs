@@ -15,9 +15,10 @@ namespace LostOrFound.Models
         public string FirstName { get; set; }
         [Required(ErrorMessage = "Please enter LastName.")]
         public string LastName { get; set; }
-        [Required]
+      
+      
         public string ItemDetails { get; set; }
-        [Required]
+        [Required()]
         public string Contact { get; set; }
         [Required]
         public string City { get; set; }

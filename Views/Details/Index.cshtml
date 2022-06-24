@@ -1,18 +1,29 @@
-﻿@model IEnumerable<LostOrFound.Models.Details>
+﻿@model PaginatedList<LostOrFound.Models.Details>
 
-@{
-    ViewData["Title"] = "Index"; 
-    Layout = "~/Views/Shared/_Layout.cshtml";
-    Pager pager = new Pager();
-    int pageNo = 0;
-    if (ViewBag.Pager != null)
-    {
-        pager = ViewBag.Pager;
-        pageNo = pager.CurrentPage;
-    }
-  
-}
+<form asp-action="Index" method="get">
+    <div class="form-actions no-color">
+        <p>
+            Find by name: <input type="text" name="SearchString" value="@ViewData["CurrentFilter"]" />
+            <input type="submit" value="Search" class="btn btn-default" /> |
+            <a asp-action="Index">Back to Full List</a>
+        </p>
+    </div>
+</form>
+<form asp-action="Index" method="get">
+    <div class="form-actions no-color">
+        <p>
+           Filter By: <select type="submit" name="filterString" value="@ViewData["CurrentFilter1"]" class="btn btn-default"asp-items="new SelectList(ViewBag.options)"></select> |
+            <input type="submit" value="Filter" class="btn btn-default" /> 
 
+        </p>
+    </div>
+</form>
+@*<div class="form-group">
+            
+                <label asp-for="ItemDetails" class="control-label"></label>
+                 <select asp-for="ItemDetails" class="form-control" asp-items="new SelectList(ViewBag.options)"></select>
+                <span asp-validation-for="ItemDetails" class="text-danger"></span>
+            </div>*@
 <p >
     <a class="btn btn-primary lost"  style ="background-color:indianred;" asp-action="Create">Add Lost Item</a>
 </p>
@@ -23,31 +34,32 @@
     <thead>
         <tr >
             <th>
-                @Html.DisplayNameFor(model => model.FirstName)
+               <a asp-action="Index" asp-route-sortOrder="@ViewData["NameSortParm"]">FirstName</a>
+            
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.LastName)
+               LastName
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.ItemDetails)
+                ItemDetails
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Contact)
+    Contact
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.City)
+               City
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.State)
+                State
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Status)
+               Status
             </th>
             <th >
-                @Html.DisplayNameFor(model => model.Date)
+                 <a asp-action="Index" asp-route-sortOrder="@ViewData["DateSortParm"]">Date</a>
             </th>
             <th >
-                @Html.DisplayNameFor(model => model.Time)
+            Time
             </th>
             <th></th>
         </tr>
@@ -120,35 +132,22 @@
     </tbody>
 </table>
 
-<div class="container">
-    @if (pager.TotalPages > 0)
-    {
-        <ul class="pagination justify-content-end">
+@{
+    var prevDisabled = !Model.HasPreviousPage ? "disabled" : "";
+    var nextDisabled = !Model.HasNextPage ? "disabled" : "";
+}
 
-            @if (pager.CurrentPage > 1){
-                <li class="page-item">
-                    <a class="page-link" asp-controller="Details" asp-action="Index" asp-route-pg="1">First</a>
-                </li>
-                 <li>
-                    <a class="page-link" asp-controller="Details" asp-action="Index" asp-route-pg="@(pager.CurrentPage-1)">Previous</a>
-                </li>
-            }
-            @for(var pge = pager.StartPage; pge <= pager.EndPage; pge++)
-            {
-                <li class="page-item @(pge==pager.CurrentPage?"active":"")">
-                    <a class="page-link" asp-controller="Details" asp-action="Index" asp-route-pg="@pge">@pge</a>
-                </li>
-            }
-
-            @if (pager.CurrentPage < pager.TotalPages)
-            {
-                <li class="page-item">
-                    <a class="page-link" asp-controller="Details" asp-action="Index" asp-route-pg="@(pager.CurrentPage+1)">Next</a>
-                </li>
-                  <li>
-                    <a class="page-link" asp-controller="Details" asp-action="Index" asp-route-pg="@(pager.TotalPages)">Last</a>
-                </li>
-            }
-        </ul>
-    }
-</div>
+<a asp-action="Index"
+   asp-route-sortOrder="@ViewData["CurrentSort"]"
+   asp-route-pageNumber="@(Model.PageIndex - 1)"
+   asp-route-currentFilter="@ViewData["CurrentFilter"]"
+   class="btn btn-default @prevDisabled">
+    Previous
+</a>
+<a asp-action="Index"
+   asp-route-sortOrder="@ViewData["CurrentSort"]"
+   asp-route-pageNumber="@(Model.PageIndex + 1)"
+   asp-route-currentFilter="@ViewData["CurrentFilter"]"
+   class="btn btn-default @nextDisabled">
+    Next
+</a>

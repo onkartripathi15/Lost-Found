@@ -28,6 +28,7 @@ a {
 -------------------------------------------------- */
 html {
   font-size: 14px;
+
 }
 @media (min-width: 768px) {
   html {
@@ -59,9 +60,10 @@ html {
 }
 
 body {
-  /* Margin bottom by footer height */
-  font-family:"Roboto",sans-sarif;
-  margin-bottom: 60px;
+    font-family: "Roboto",sans-sarif;
+    margin-bottom: 60px;
+
+    background-color: #ffe9e9;
 }
 .footer {
   position: absolute;
@@ -87,4 +89,11 @@ div.login-logout-tab a.nav-link{
     font-size:25px;
     color:#495057;
     text-align:center;
+}
+#logout {
+   
+    margin-top:10px;
+}
+.found{
+    background-color:green;
 }

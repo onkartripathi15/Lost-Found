@@ -13,14 +13,15 @@
   
 }
 
-<h1>Index</h1>
-
-<p>
-    <a asp-action="Create">Create New</a>
+<p >
+    <a class="btn btn-primary lost"  style ="background-color:indianred;" asp-action="Create">Add Lost Item</a>
 </p>
-<table class="table">
+<p >
+    <a  class="btn btn-primary found" style ="background-color:darkgreen;" asp-action="Create">Add Found item</a>
+</p>
+<table class="table" >
     <thead>
-        <tr>
+        <tr >
             <th>
                 @Html.DisplayNameFor(model => model.FirstName)
             </th>
@@ -42,10 +43,10 @@
             <th>
                 @Html.DisplayNameFor(model => model.Status)
             </th>
-            <th>
+            <th >
                 @Html.DisplayNameFor(model => model.Date)
             </th>
-            <th>
+            <th >
                 @Html.DisplayNameFor(model => model.Time)
             </th>
             <th></th>
@@ -82,10 +83,23 @@
                 @Html.DisplayFor(modelItem => item.Time)
             </td>
             <td>
+                   <td>
+               
+                <td class="text-center">
+                                <a asp-action="Edit" asp-route-id="@item.UserId" class="btn btn-primary"><i class="fas fa-pen"></i> Edit Details</a>
+                            </td>
+                              <td class="text-center">
+                                <a asp-action="Details" asp-route-id="@item.UserId" class="btn btn-primary"><i class="fas fa-pen"></i>Item Details</a>
+                            </td>
+                              <td class="text-center">
+                                <a asp-action="Delete" asp-route-id="@item.UserId" class="btn btn-primary"><i class="fas fa-pen"></i>Delete Item</a>
+                            </td>
+            
+          @*  </td>
                 <a asp-action="Edit" asp-route-id="@item.UserId">Edit</a> |
                 <a asp-action="Details" asp-route-id="@item.UserId">Details</a> |
                 <a asp-action="Delete" asp-route-id="@item.UserId">Delete</a>
-            </td>
+            </td>*@
         </tr>
 }
 

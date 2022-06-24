@@ -60,9 +60,14 @@ html {
 }
 
 body {
+  
+    background: linear-gradient(to bottom, #33ccff 0%, #ff99cc 73%);
+    border-radius: 67px;
+    padding: 1.75rem;
+    box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
+
     font-family: "Roboto",sans-sarif;
     margin-bottom: 60px;
-
     background-color: #ffe9e9;
 }
 .footer {
@@ -96,4 +101,28 @@ div.login-logout-tab a.nav-link{
 }
 .found{
     background-color:green;
+}
+.mirror {
+    /* From https://css.glass */
+    background: rgba(255, 255, 255, 0.28);
+    border-radius: 16px;
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+    border: 1px solid rgba(255, 255, 255, 0.55);
+  
+}
+.btn1 {
+    margin-top: 0.25rem;
+    margin-left:6rem;
+}
+.btn2 {
+    margin-top: 0.25rem;
+    margin-left: 2rem;
+}
+.navbar {
+    border-radius: 61px;
+}
+.header{
+    border:3px solid black;
 }
